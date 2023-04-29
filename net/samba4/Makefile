@@ -64,7 +64,7 @@ endef
 define Package/samba4-libs
   $(call Package/samba4/Default)
   TITLE+= libs
-  DEPENDS:= +libtirpc +libreadline +libpopt +libcap +zlib +libgnutls +libtasn1 +libuuid +libopenssl +libpthread +KERNEL_IO_URING:liburing \
+  DEPENDS:= +libtirpc +libreadline +libpopt +libcap +zlib +libgnutls +libtasn1 +libuuid +libopenssl +libpthread +KERNEL_IO_URING:liburing $(ICONV_DEPENDS) \
 	+PACKAGE_libpam:libpam \
 	+SAMBA4_SERVER_VFS:attr \
 	+SAMBA4_SERVER_AVAHI:libavahi-client \
@@ -178,7 +178,7 @@ CONFIGURE_ARGS += \
 		--disable-spotlight \
 		--enable-fhs \
 		--without-automount \
-		--without-iconv \
+		$(if ! $(ICONV_FULL),--without-iconv) \
 		--without-lttng \
 		--without-pam \
 		--without-systemd \
@@ -202,7 +202,7 @@ HOST_CONFIGURE_ARGS += \
 		--disable-rpath-private-install \
 		--enable-fhs \
 		--without-automount \
-		--without-iconv \
+		$(if ! $(ICONV_FULL),--without-iconv) \
 		--without-lttng \
 		--without-pam \
 		--without-systemd \
